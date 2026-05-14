@@ -2,34 +2,148 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eaglercraft</title>
+<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0">
+<title>Eaglercraft Hub</title>
 
 <style>
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: black;
-    font-family: Arial, sans-serif;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-iframe {
-    border: none;
-    width: 100%;
-    height: 100%;
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#0b0b0b;
+    font-family:Arial,sans-serif;
+    color:white;
+}
+
+#menu{
+    position:absolute;
+    top:15px;
+    left:15px;
+    z-index:10;
+    background:rgba(0,0,0,0.75);
+    padding:15px;
+    border-radius:12px;
+    backdrop-filter:blur(6px);
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+button{
+    background:#1e1e1e;
+    color:white;
+    border:none;
+    padding:12px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.2s;
+    font-size:15px;
+}
+
+button:hover{
+    background:#333;
+    transform:scale(1.03);
+}
+
+#gameFrame{
+    width:100%;
+    height:100%;
+    border:none;
+    background:black;
+}
+
+#loading{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:black;
+    font-size:28px;
+    z-index:5;
+}
+
+.hidden{
+    display:none !important;
 }
 </style>
 </head>
 
 <body>
 
-<iframe 
-    src="https://eaglercraft.com/play/" 
-    allowfullscreen>
-</iframe>
+<div id="menu">
+    <button onclick="loadGame('https://eaglercraft.com/mc/1.8.8/')">
+        Eaglercraft 1.8.8
+    </button>
+
+    <button onclick="loadGame('https://eaglercraft.com/mc/1.5.2/')">
+        Eaglercraft 1.5.2
+    </button>
+
+    <button onclick="fullscreenGame()">
+        Fullscreen
+    </button>
+
+    <button onclick="reloadGame()">
+        Reload
+    </button>
+
+    <button onclick="toggleMenu()">
+        Hide Menu
+    </button>
+</div>
+
+<div id="loading">
+    Loading Eaglercraft...
+</div>
+
+<iframe id="gameFrame"></iframe>
+
+<script>
+const frame = document.getElementById("gameFrame");
+const loading = document.getElementById("loading");
+const menu = document.getElementById("menu");
+
+function loadGame(url){
+    loading.classList.remove("hidden");
+
+    frame.src = url;
+
+    frame.onload = () => {
+        loading.classList.add("hidden");
+    };
+}
+
+function fullscreenGame(){
+    if(frame.requestFullscreen){
+        frame.requestFullscreen();
+    }
+}
+
+function reloadGame(){
+    frame.src = frame.src;
+}
+
+function toggleMenu(){
+    if(menu.style.opacity === "0"){
+        menu.style.opacity = "1";
+        menu.style.pointerEvents = "auto";
+    } else {
+        menu.style.opacity = "0";
+        menu.style.pointerEvents = "none";
+    }
+}
+
+window.onload = () => {
+    loadGame("https://eaglercraft.com/mc/1.8.8/");
+};
+</script>
 
 </body>
 </html>
